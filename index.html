@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <canvas id="draw" width="800" height="800"></canvas>
+        <script>
+            var canvas1=document.querySelector('#draw');
+            var ctx=canvas1.getContext('2d');
+            ctx.width=window.innerWidth;
+            ctx.height=window.innerHeight;
+            ctx.strokeStyle="BADA55";
+            ctx.lineCap="square";
+            ctx.lineJoin="round";
+            var a=0;
+            var b=0;
+            var isDraw=false;
+            var hue=0;
+            var lw=2;
+            var direction=true;
+            function draw(e){
+                if(!isDraw)
+                {
+                    return;
+                }
+                //console.log(e);
+                ctx.strokeStyle=`hsl(${hue},100%,50%)`;
+                ctx.lineWidth=lw;
+                ctx.beginPath();
+                ctx.moveTo(a,b);
+                ctx.lineTo(e.offsetX,e.offsetY);
+                ctx.stroke();
+                a=e.offsetX;
+                b=e.offsetY;
+                hue++;
+                if(hue>=360)
+                {
+                    hue=0;
+                }
+                if(lw>=100||lw<=1)
+                {
+                    direction=!direction;
+                }
+                if(direction)
+                {
+                    lw++;
+                }
+                else{
+                    lw--;
+                }
+            }
+            canvas1.addEventListener('mousemove',draw);
+            canvas1.addEventListener('mousedown',(e) => {
+                a=e.offsetX;
+                b=e.offsetY;
+                isDraw=true;
+            });
+            canvas1.addEventListener('mouseup',() => isDraw=false);
+            canvas1.addEventListener('mouseout',() => isDraw=false);
+        </script>
+    </body>
+</html>
